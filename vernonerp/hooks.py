@@ -123,11 +123,11 @@ after_install = "vernonerp.installation.after_install"
 # ---------------
 # Hook on document methods and events
 
-doc_events = {
-	"Journal Entry": {
-		"before_insert": "vernonerp.vernonerp.modules.custom_naming.set_naming"
-	}
-}
+# doc_events = {
+	# "*": {
+	# 	"autoname": "vernonerp.vernonerp.modules.custom_naming.autoname"
+	# }
+# }
 # 	"*": {
 # 		"on_update": "method",
 # 		"on_cancel": "method",
@@ -236,15 +236,8 @@ doc_events = {
 # Fixtures
 # --------------------
 # Include fixtures
-# fixtures = ["Custom Account Settings"]
+fixtures = [
+]
 
 # Hooks
 # --------------------
-# Hook setelah install
-# def after_install():
-#     """
-#     Hook yang dijalankan setelah aplikasi diinstall.
-#     ERPNext secara otomatis memanggil fungsi ini setelah install.
-#     """
-#     install()  # Panggil fungsi after_install dari after_install.py
-
