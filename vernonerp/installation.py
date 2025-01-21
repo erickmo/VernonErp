@@ -30,25 +30,31 @@ def set_accounts_settings():
         frappe.log_error(f"Gagal mengupdate Accounts Settings: {str(e)}", "After Install Hook Error")
         frappe.throw("Terjadi kesalahan saat mengupdate Accounts Settings. Silakan cek log untuk detailnya.")
 
-def set_other_settings():
+def set_selling_settings():
     """
-    Fungsi untuk mengatur settings lainnya.
+    Mengupdate Selling Settings sesuai kebutuhan.
     """
     try:
-        # Contoh: Update System Settings
-        system_settings = frappe.get_doc("System Settings")
-        system_settings.update({
-            "allow_error_traceback": 1,  # Aktifkan error traceback
-            "enable_telemetry": 0        # Nonaktifkan telemetry
-        })
-        system_settings.save()
-        frappe.db.commit()
+        # Ambil dokumen Accounts Settings
+        settings = frappe.get_doc("Selling Settings")
 
-        frappe.msgprint("System Settings berhasil diupdate setelah install.")
+        # Update nilai settings
+        settings.update({
+            "territory": "Indonesia",
+            "validate_selling_price": 1
+        })
+
+        # Simpan perubahan
+        settings.save()
+        frappe.db.commit()  # Commit perubahan ke database
+
+        # Tampilkan pesan sukses
+        frappe.msgprint("Selling Settings berhasil diupdate setelah install.")
 
     except Exception as e:
-        frappe.log_error(f"Gagal mengupdate System Settings: {str(e)}", "After Install Hook Error")
-        frappe.throw("Terjadi kesalahan saat mengupdate System Settings. Silakan cek log untuk detailnya.")
+        # Tangani error dan tampilkan pesan error
+        frappe.log_error(f"Gagal mengupdate Selling Settings: {str(e)}", "After Install Hook Error")
+        frappe.throw("Terjadi kesalahan saat mengupdate Selling Settings. Silakan cek log untuk detailnya.")
 
 def after_install():
     """
@@ -58,6 +64,9 @@ def after_install():
 
     set_accounts_settings()  # Panggil fungsi untuk mengatur Accounts Settings
     print("... ✅ Account Settings Installed")
+
+    set_selling_settings()  # Panggil fungsi untuk mengatur Accounts Settings
+    print("... ✅ Selling Settings Installed")
     # set_other_settings()     # Panggil fungsi untuk mengatur settings lainnya
 
 def before_install():
