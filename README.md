@@ -4,4 +4,4 @@ ERPNext15 Vernon's standard configurations
 
 #### License
 
-mit
+mit# VernonErp
