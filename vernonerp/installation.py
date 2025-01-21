@@ -2,140 +2,29 @@
 
 import frappe
 
-def set_accounts_settings():
+def set_settings(setting_name, new_setting):
     """
-    Mengupdate Accounts Settings sesuai kebutuhan.
-    """
-    try:
-        # Ambil dokumen Accounts Settings
-        accounts_settings = frappe.get_doc("Accounts Settings")
-
-        # Update nilai settings
-        accounts_settings.update({
-            "delete_linked_ledger_entries": 1,
-            "check_supplier_invoice_uniqueness": 1,
-            "enable_common_party_accounting": 1,
-            "post_change_gl_entries": 0
-        })
-
-        # Simpan perubahan
-        accounts_settings.save()
-        frappe.db.commit()  # Commit perubahan ke database
-
-        # Tampilkan pesan sukses
-        frappe.msgprint("Accounts Settings berhasil diupdate setelah install.")
-
-    except Exception as e:
-        # Tangani error dan tampilkan pesan error
-        frappe.log_error(f"Gagal mengupdate Accounts Settings: {str(e)}", "After Install Hook Error")
-        frappe.throw("Terjadi kesalahan saat mengupdate Accounts Settings. Silakan cek log untuk detailnya.")
-
-def set_selling_settings():
-    """
-    Mengupdate Selling Settings sesuai kebutuhan.
+    Mengupdate {setting_name} dengan {new_setting} sesuai kebutuhan.
     """
     try:
         # Ambil dokumen Accounts Settings
-        settings = frappe.get_doc("Selling Settings")
+        settings = frappe.get_doc(setting_name)
 
         # Update nilai settings
-        settings.update({
-            "territory": "Indonesia",
-            "validate_selling_price": 1
-        })
+        settings.update(new_setting)
 
         # Simpan perubahan
         settings.save()
         frappe.db.commit()  # Commit perubahan ke database
 
         # Tampilkan pesan sukses
-        frappe.msgprint("Selling Settings berhasil diupdate setelah install.")
+        frappe.msgprint(f"{setting_name} Settings berhasil diupdate setelah install.")
 
     except Exception as e:
         # Tangani error dan tampilkan pesan error
-        frappe.log_error(f"Gagal mengupdate Selling Settings: {str(e)}", "After Install Hook Error")
-        frappe.throw("Terjadi kesalahan saat mengupdate Selling Settings. Silakan cek log untuk detailnya.")
+        frappe.log_error(f"Gagal update: {str(e)}", "After Install Hook Error")
+        frappe.throw(f"Terjadi kesalahan saat mengupdate {setting_name}. Error: {str(e)}.")
 
-def set_buying_settings():
-    """
-    Mengupdate Buying Settings sesuai kebutuhan.
-    """
-    try:
-        # Ambil dokumen Accounts Settings
-        settings = frappe.get_doc("Buying Settings")
-
-        # Update nilai settings
-        settings.update({
-            "po_required": "Yes",
-            "pr_required": "Yes"
-        })
-
-        # Simpan perubahan
-        settings.save()
-        frappe.db.commit()  # Commit perubahan ke database
-
-        # Tampilkan pesan sukses
-        frappe.msgprint("Buying Settings berhasil diupdate setelah install.")
-
-    except Exception as e:
-        # Tangani error dan tampilkan pesan error
-        frappe.log_error(f"Gagal mengupdate Buying Settings: {str(e)}", "After Install Hook Error")
-        frappe.throw("Terjadi kesalahan saat mengupdate Buying Settings. Silakan cek log untuk detailnya.")
-
-def set_global_settings():
-    """
-    Mengupdate Global Settings sesuai kebutuhan.
-    """
-    try:
-        # Ambil dokumen Accounts Settings
-        settings = frappe.get_doc("Global Defaults")
-
-        # Update nilai settings
-        settings.update({
-            "hide_currency_symbol": "No",
-            "default_distance_unit": "Meter",
-            "disable_in_words": 1
-        })
-
-        # Simpan perubahan
-        settings.save()
-        frappe.db.commit()  # Commit perubahan ke database
-
-        # Tampilkan pesan sukses
-        frappe.msgprint("Global Settings berhasil diupdate setelah install.")
-
-    except Exception as e:
-        # Tangani error dan tampilkan pesan error
-        frappe.log_error(f"Gagal mengupdate Global Settings: {str(e)}", "After Install Hook Error")
-        frappe.throw("Terjadi kesalahan saat mengupdate Global Settings. Silakan cek log untuk detailnya.")
-
-def set_print_settings():
-    """
-    Mengupdate Print Settings sesuai kebutuhan.
-    """
-    try:
-        # Ambil dokumen Accounts Settings
-        settings = frappe.get_doc("Print Settings")
-
-        # Update nilai settings
-        settings.update({
-            "compact_item_print": 1,
-            "print_uom_after_quantity": 1,
-            "font": "Helvetica",
-            "font_size": 9
-        })
-
-        # Simpan perubahan
-        settings.save()
-        frappe.db.commit()  # Commit perubahan ke database
-
-        # Tampilkan pesan sukses
-        frappe.msgprint("Print Settings berhasil diupdate setelah install.")
-
-    except Exception as e:
-        # Tangani error dan tampilkan pesan error
-        frappe.log_error(f"Gagal mengupdate Print Settings: {str(e)}", "After Install Hook Error")
-        frappe.throw("Terjadi kesalahan saat mengupdate Print Settings. Silakan cek log untuk detailnya.")
 
 def after_install():
     """
@@ -143,20 +32,37 @@ def after_install():
     """
     print("🟡 Installed, Setting Up Apps...")
 
-    set_accounts_settings()  # Panggil fungsi untuk mengatur Accounts Settings
-    print("... ✅ Account Settings Installed")
+    settings_to_configure = {
+        "Accounts Settings": {
+            "delete_linked_ledger_entries": 1,
+            "check_supplier_invoice_uniqueness": 1,
+            "enable_common_party_accounting": 1,
+            "post_change_gl_entries": 0,
+        },
+        "Selling Settings": {
+            "territory": "Indonesia",
+            "validate_selling_price": 1,
+        },
+        "Buying Settings": {
+            "po_required": "Yes",
+            "pr_required": "Yes",
+        },
+        "Global Defaults": {
+            "hide_currency_symbol": "No",
+            "default_distance_unit": "Meter",
+            "disable_in_words": 1,
+        },
+        "Print Settings": {
+            "compact_item_print": 1,
+            "print_uom_after_quantity": 1,
+            "font": "Helvetica",
+            "font_size": 9,
+        },
+    }
 
-    set_selling_settings()  # Panggil fungsi untuk mengatur Selling Settings
-    print("... ✅ Selling Settings Installed")
-
-    set_buying_settings()  # Panggil fungsi untuk mengatur Buying Settings
-    print("... ✅ Buying Settings Installed")
-
-    set_global_settings()  # Panggil fungsi untuk mengatur global Settings
-    print("... ✅ Global Default Installed")
-
-    set_print_settings()  # Panggil fungsi untuk mengatur Print Settings
-    print("... ✅ Print Default Installed")
+    for doctype, settings in settings_to_configure.items():
+        set_settings(doctype, settings)
+        print(f"... ✅ {doctype} Installed")
 
 def before_install():
     """
