@@ -56,6 +56,33 @@ def set_selling_settings():
         frappe.log_error(f"Gagal mengupdate Selling Settings: {str(e)}", "After Install Hook Error")
         frappe.throw("Terjadi kesalahan saat mengupdate Selling Settings. Silakan cek log untuk detailnya.")
 
+def set_buying_settings():
+    """
+    Mengupdate Buying Settings sesuai kebutuhan.
+    """
+    try:
+        # Ambil dokumen Accounts Settings
+        settings = frappe.get_doc("Buying Settings")
+
+        # Update nilai settings
+        settings.update({
+            "po_required": 1,
+            "pr_required": 1
+        })
+
+        # Simpan perubahan
+        settings.save()
+        frappe.db.commit()  # Commit perubahan ke database
+
+        # Tampilkan pesan sukses
+        frappe.msgprint("Buying Settings berhasil diupdate setelah install.")
+
+    except Exception as e:
+        # Tangani error dan tampilkan pesan error
+        frappe.log_error(f"Gagal mengupdate Buying Settings: {str(e)}", "After Install Hook Error")
+        frappe.throw("Terjadi kesalahan saat mengupdate Buying Settings. Silakan cek log untuk detailnya.")
+
+
 def after_install():
     """
     Fungsi utama yang dijalankan setelah aplikasi diinstall.
@@ -65,9 +92,11 @@ def after_install():
     set_accounts_settings()  # Panggil fungsi untuk mengatur Accounts Settings
     print("... ✅ Account Settings Installed")
 
-    set_selling_settings()  # Panggil fungsi untuk mengatur Accounts Settings
+    set_selling_settings()  # Panggil fungsi untuk mengatur Selling Settings
     print("... ✅ Selling Settings Installed")
-    # set_other_settings()     # Panggil fungsi untuk mengatur settings lainnya
+
+    set_buying_settings()  # Panggil fungsi untuk mengatur Buying Settings
+    print("... ✅ Buying Settings Installed")
 
 def before_install():
     """
