@@ -123,12 +123,17 @@ after_install = "vernonerp.installation.after_install"
 # ---------------
 # Hook on document methods and events
 
-# doc_events = {
+doc_events = {
+	"Journal Entry": {
+		"before_insert": "vernonerp.vernonerp.modules.custom_naming.set_naming"
+	}
+}
 # 	"*": {
 # 		"on_update": "method",
 # 		"on_cancel": "method",
 # 		"on_trash": "method"
 # 	}
+
 # }
 
 # Scheduled Tasks
