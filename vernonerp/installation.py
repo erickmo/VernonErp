@@ -25,6 +25,40 @@ def set_settings(setting_name, new_setting):
         frappe.log_error(f"Gagal update: {str(e)}", "After Install Hook Error")
         frappe.throw(f"Terjadi kesalahan saat mengupdate {setting_name}. Error: {str(e)}.")
 
+def setup_item_groups():
+    # Definisi grup dan subgrup
+    item_groups = {
+        "Products": "Uncategorized Products",
+        "Services": "Uncategorized Services",
+        "Consumables": "Uncategorized Consumables",
+    }
+
+    for group, sub_group in item_groups.items():
+        # Periksa dan buat grup utama jika belum ada
+        if not frappe.db.exists("Item Group", group):
+            frappe.get_doc({
+                "doctype": "Item Group",
+                "item_group_name": group,
+                "is_group": 1,  # Menjadikan ini grup
+                "parent_item_group": "All Item Groups"  # Pastikan sesuai hierarki
+            }).insert()
+            print(f"....... ✅ Group '{group}' created.")
+        else:
+            # Jika grup sudah ada, pastikan diatur sebagai grup
+            frappe.db.set_value("Item Group", group, "is_group", 1)
+            print(f"....... ✅ Group '{group}' updated to be a group.")
+
+        # Periksa dan buat subgrup jika belum ada
+        if not frappe.db.exists("Item Group", sub_group):
+            frappe.get_doc({
+                "doctype": "Item Group",
+                "item_group_name": sub_group,
+                "is_group": 0,  # Subgrup bukan grup
+                "parent_item_group": group  # Menghubungkan ke grup utama
+            }).insert()
+            print(f"....... ✅ Subgroup '{sub_group}' created under '{group}'.")
+        else:
+            print(f"....... ✅ Subgroup '{sub_group}' already exists under '{group}'.")
 
 def after_install():
     """
@@ -70,6 +104,9 @@ def after_install():
     for doctype, settings in settings_to_configure.items():
         set_settings(doctype, settings)
         print(f"... ✅ {doctype} Installed")
+
+    setup_item_groups()
+    print(f"... ✅ Item Group Set")
 
 def before_install():
     """
