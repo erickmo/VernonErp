@@ -68,7 +68,8 @@ app_license = "mit"
 # ------------
 
 # before_install = "vernonerp.install.before_install"
-# after_install = "vernonerp.install.after_install"
+before_install = "vernonerp.installation.before_install"
+after_install = "vernonerp.installation.after_install"
 
 # Uninstallation
 # ------------
@@ -226,4 +227,19 @@ app_license = "mit"
 # default_log_clearing_doctypes = {
 # 	"Logging DocType Name": 30  # days to retain logs
 # }
+
+# Fixtures
+# --------------------
+# Include fixtures
+# fixtures = ["Custom Account Settings"]
+
+# Hooks
+# --------------------
+# Hook setelah install
+# def after_install():
+#     """
+#     Hook yang dijalankan setelah aplikasi diinstall.
+#     ERPNext secara otomatis memanggil fungsi ini setelah install.
+#     """
+#     install()  # Panggil fungsi after_install dari after_install.py
 
