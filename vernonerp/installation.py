@@ -33,6 +33,13 @@ def after_install():
     print("🟡 Installed, Setting Up Apps...")
 
     settings_to_configure = {
+        "System Settings": {
+            "float_precision": 2,
+            "currency_precision": 2,
+            "allow_login_using_mobile_number": 1,
+            "allow_login_using_user_name": 1,
+            "deny_multiple_sessions": 1
+        },
         "Accounts Settings": {
             "delete_linked_ledger_entries": 1,
             "check_supplier_invoice_uniqueness": 1,
@@ -57,7 +64,7 @@ def after_install():
             "print_uom_after_quantity": 1,
             "font": "Helvetica",
             "font_size": 9,
-        },
+        }
     }
 
     for doctype, settings in settings_to_configure.items():
