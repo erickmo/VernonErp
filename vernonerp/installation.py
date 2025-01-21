@@ -109,6 +109,34 @@ def set_global_settings():
         frappe.log_error(f"Gagal mengupdate Global Settings: {str(e)}", "After Install Hook Error")
         frappe.throw("Terjadi kesalahan saat mengupdate Global Settings. Silakan cek log untuk detailnya.")
 
+def set_print_settings():
+    """
+    Mengupdate Print Settings sesuai kebutuhan.
+    """
+    try:
+        # Ambil dokumen Accounts Settings
+        settings = frappe.get_doc("Print Settings")
+
+        # Update nilai settings
+        settings.update({
+            "compact_item_print": 1,
+            "print_uom_after_quantity": 1,
+            "font": "Helvetica",
+            "font_size": 9
+        })
+
+        # Simpan perubahan
+        settings.save()
+        frappe.db.commit()  # Commit perubahan ke database
+
+        # Tampilkan pesan sukses
+        frappe.msgprint("Print Settings berhasil diupdate setelah install.")
+
+    except Exception as e:
+        # Tangani error dan tampilkan pesan error
+        frappe.log_error(f"Gagal mengupdate Print Settings: {str(e)}", "After Install Hook Error")
+        frappe.throw("Terjadi kesalahan saat mengupdate Print Settings. Silakan cek log untuk detailnya.")
+
 def after_install():
     """
     Fungsi utama yang dijalankan setelah aplikasi diinstall.
@@ -126,6 +154,9 @@ def after_install():
 
     set_global_settings()  # Panggil fungsi untuk mengatur global Settings
     print("... ✅ Global Default Installed")
+
+    set_print_settings()  # Panggil fungsi untuk mengatur Print Settings
+    print("... ✅ Print Default Installed")
 
 def before_install():
     """
