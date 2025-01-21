@@ -66,8 +66,8 @@ def set_buying_settings():
 
         # Update nilai settings
         settings.update({
-            "po_required": 1,
-            "pr_required": 1
+            "po_required": "Yes",
+            "pr_required": "Yes"
         })
 
         # Simpan perubahan
@@ -88,7 +88,7 @@ def set_global_settings():
     """
     try:
         # Ambil dokumen Accounts Settings
-        settings = frappe.get_doc("Global Settings")
+        settings = frappe.get_doc("Global Defaults")
 
         # Update nilai settings
         settings.update({
