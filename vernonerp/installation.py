@@ -82,6 +82,32 @@ def set_buying_settings():
         frappe.log_error(f"Gagal mengupdate Buying Settings: {str(e)}", "After Install Hook Error")
         frappe.throw("Terjadi kesalahan saat mengupdate Buying Settings. Silakan cek log untuk detailnya.")
 
+def set_global_settings():
+    """
+    Mengupdate Global Settings sesuai kebutuhan.
+    """
+    try:
+        # Ambil dokumen Accounts Settings
+        settings = frappe.get_doc("Global Settings")
+
+        # Update nilai settings
+        settings.update({
+            "hide_currency_symbol": "No",
+            "default_distance_unit": "Meter",
+            "disable_in_words": 1
+        })
+
+        # Simpan perubahan
+        settings.save()
+        frappe.db.commit()  # Commit perubahan ke database
+
+        # Tampilkan pesan sukses
+        frappe.msgprint("Global Settings berhasil diupdate setelah install.")
+
+    except Exception as e:
+        # Tangani error dan tampilkan pesan error
+        frappe.log_error(f"Gagal mengupdate Global Settings: {str(e)}", "After Install Hook Error")
+        frappe.throw("Terjadi kesalahan saat mengupdate Global Settings. Silakan cek log untuk detailnya.")
 
 def after_install():
     """
@@ -97,6 +123,9 @@ def after_install():
 
     set_buying_settings()  # Panggil fungsi untuk mengatur Buying Settings
     print("... ✅ Buying Settings Installed")
+
+    set_global_settings()  # Panggil fungsi untuk mengatur global Settings
+    print("... ✅ Global Default Installed")
 
 def before_install():
     """
