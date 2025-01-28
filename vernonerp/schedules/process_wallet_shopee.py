@@ -6,7 +6,8 @@ def execute():
 	wallet_shopee_list = frappe.get_all("Wallet Shopee",
 		filters={
 			"payment_entry": ["is", "not set"],
-			"journal_entry": ["is", "not set"]
+			"journal_entry": ["is", "not set"],
+			# "no_pesanan": "2412282WPN11F6",
 		},
 		fields=["*"]
 	)
@@ -26,13 +27,17 @@ def execute():
 
 		except Exception as e:
 			frappe.log_error(f"Gagal memproses Wallet Shopee {x.name}: {str(e)}")
-			print(f"Gagal memproses Wallet Shopee {x.name}: {str(e)}")
+			print(f"❌❌ Gagal memproses Wallet Shopee {x.name}: {str(e)}")
 
 def create_payment_entry(x):
 	# Cari Sales Invoice berdasarkan no_pesanan
 	sinv = frappe.get_doc("Sales Invoice", {"po_no": x.no_pesanan})
 	if not sinv:
 		frappe.throw(f"Sales Invoice dengan PO No {x.no_pesanan} tidak ditemukan.")
+	if sinv.docstatus == 0:
+		frappe.throw(f"Sales Invoice dengan PO No {x.no_pesanan} belum tersubmit.")
+	if sinv.docstatus == 2:
+		frappe.throw(f"Sales Invoice dengan PO No {x.no_pesanan} telah dicancel.")
 
 	# Buat Payment Entry
 	payment_entry = frappe.new_doc("Payment Entry")
@@ -40,25 +45,27 @@ def create_payment_entry(x):
 	payment_entry.posting_date = x.tanggal_transaksi
 	payment_entry.party_type = "Customer"
 	payment_entry.party = sinv.customer
-	payment_entry.paid_from = x.wallet_account
-	payment_entry.paid_to = sinv.customer
+	payment_entry.paid_from = sinv.debit_to
+	payment_entry.paid_to = x.wallet_account
+	payment_entry.paid_to_account_currency = sinv.currency
+	payment_entry.target_exchange_rate = 1
 	payment_entry.paid_amount = flt(x.jumlah)
 	payment_entry.received_amount = flt(x.jumlah)
-	payment_entry.references = [{
+	payment_entry.append("references", {
 		"reference_doctype": "Sales Invoice",
 		"reference_name": sinv.name,
 		"total_amount": flt(x.jumlah),
 		"outstanding_amount": flt(x.jumlah),
 		"allocated_amount": flt(x.jumlah)
-	}]
-	payment_entry.insert()
+	})
+
+	payment_entry.save()
 	payment_entry.submit()
 
 	# Update Wallet Shopee dengan Sales Invoice dan Payment Entry
-	frappe.db.set_value("Wallet Shopee", x.name, {
-		"sales_invoice": sinv.name,
-		"payment_entry": payment_entry.name
-	})
+	wallet_shopee = frappe.get_doc("Wallet Shopee", x.name)
+	wallet_shopee.payment_entry = payment_entry.name
+	wallet_shopee.save()
 	frappe.db.commit()
 
 def create_journal_entry(x):
