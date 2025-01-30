@@ -1,0 +1,169 @@
+{
+ "actions": [],
+ "allow_import": 1,
+ "allow_rename": 1,
+ "autoname": "format:{date}-{mutation}-{balance}",
+ "creation": "2025-01-29 20:51:35.677321",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "company",
+  "column_break_ladd",
+  "date",
+  "mutation",
+  "description",
+  "nominal",
+  "balance",
+  "column_break_uylo",
+  "no_pesanan",
+  "tipe_transaksi",
+  "withdrawal_to",
+  "account_settings_section",
+  "wallet_account",
+  "balancing_account",
+  "processed_section",
+  "journal_entry",
+  "column_break_mqnh",
+  "payment_entry"
+ ],
+ "fields": [
+  {
+   "fieldname": "company",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Company",
+   "options": "Company",
+   "reqd": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "column_break_ladd",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "date",
+   "fieldtype": "Datetime",
+   "in_list_view": 1,
+   "label": "Date",
+   "reqd": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "mutation",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Mutation",
+   "reqd": 1
+  },
+  {
+   "fieldname": "description",
+   "fieldtype": "Small Text",
+   "in_list_view": 1,
+   "label": "Description",
+   "reqd": 1
+  },
+  {
+   "fieldname": "nominal",
+   "fieldtype": "Currency",
+   "label": "Nominal",
+   "reqd": 1
+  },
+  {
+   "fieldname": "balance",
+   "fieldtype": "Data",
+   "label": "Balance",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_uylo",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "no_pesanan",
+   "fieldtype": "Data",
+   "label": "No Pesanan",
+   "search_index": 1
+  },
+  {
+   "fieldname": "account_settings_section",
+   "fieldtype": "Section Break",
+   "label": "Account Settings"
+  },
+  {
+   "fieldname": "wallet_account",
+   "fieldtype": "Link",
+   "label": "Wallet Account",
+   "options": "Account",
+   "reqd": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "balancing_account",
+   "fieldtype": "Link",
+   "label": "Balancing Account",
+   "options": "Account",
+   "search_index": 1
+  },
+  {
+   "fieldname": "processed_section",
+   "fieldtype": "Section Break",
+   "label": "Processed"
+  },
+  {
+   "fieldname": "journal_entry",
+   "fieldtype": "Link",
+   "label": "Journal Entry",
+   "options": "Journal Entry",
+   "search_index": 1
+  },
+  {
+   "fieldname": "column_break_mqnh",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "payment_entry",
+   "fieldtype": "Link",
+   "label": "Payment Entry",
+   "options": "Payment Entry",
+   "search_index": 1
+  },
+  {
+   "fieldname": "tipe_transaksi",
+   "fieldtype": "Data",
+   "label": "Tipe Transaksi",
+   "reqd": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "withdrawal_to",
+   "fieldtype": "Data",
+   "label": "Withdrawal To"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2025-01-30 08:22:39.616312",
+ "modified_by": "Administrator",
+ "module": "Vernonerp",
+ "name": "Wallet Tokopedia",
+ "naming_rule": "Expression",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1
+}
