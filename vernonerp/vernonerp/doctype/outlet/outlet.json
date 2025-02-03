@@ -7,6 +7,7 @@
  "engine": "InnoDB",
  "field_order": [
   "company",
+  "business_unit",
   "outlet_name",
   "is_default",
   "section_break_pkxm",
@@ -68,11 +69,19 @@
    "fieldtype": "Check",
    "label": "Default Outlet",
    "search_index": 1
+  },
+  {
+   "fieldname": "business_unit",
+   "fieldtype": "Link",
+   "label": "Business Unit",
+   "options": "Business Unit",
+   "reqd": 1,
+   "search_index": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-01-21 21:05:09.343963",
+ "modified": "2025-02-03 08:44:53.574270",
  "modified_by": "Administrator",
  "module": "Vernonerp",
  "name": "Outlet",
