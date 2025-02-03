@@ -139,12 +139,13 @@ after_install = "vernonerp.installation.after_install"
 # Scheduled Tasks
 # ---------------
 
-# scheduler_events = {
+scheduler_events = {
+		"daily": [
+			"vernonerp.schedules.auto_update_fiscal_years.create_missing_fiscal_years"
+		],
+}
 # 	"all": [
 # 		"vernonerp.tasks.all"
-# 	],
-# 	"daily": [
-# 		"vernonerp.tasks.daily"
 # 	],
 # 	"hourly": [
 # 		"vernonerp.tasks.hourly"
