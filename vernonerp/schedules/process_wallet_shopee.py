@@ -49,8 +49,9 @@ def create_payment_entry(x):
 	payment_entry.paid_to = x.wallet_account
 	payment_entry.paid_to_account_currency = sinv.currency
 	payment_entry.target_exchange_rate = 1
-	payment_entry.paid_amount = flt(x.jumlah)
-	payment_entry.received_amount = flt(x.jumlah)
+	# buat pembayaran sebesar min(outstanding_amount, x.jumlah)
+	payment_entry.paid_amount = min(sinv.outstanding_amount, flt(x.jumlah))
+	payment_entry.received_amount = payment_entry.paid_amount
 	payment_entry.append("references", {
 		"reference_doctype": "Sales Invoice",
 		"reference_name": sinv.name,
@@ -61,6 +62,24 @@ def create_payment_entry(x):
 
 	payment_entry.save()
 	payment_entry.submit()
+
+	# Buat journal entry untuk pembayaran dari wallet ke biaya shopee atas selisih antara paid_amount dan x.jumlah
+	if flt(x.jumlah) < payment_entry.paid_amount:
+		journal_entry = frappe.new_doc("Journal Entry")
+		journal_entry.posting_date = x.tanggal_transaksi
+		journal_entry.voucher_type = "Journal Entry"
+		journal_entry.company = x.company  # Sesuaikan dengan perusahaan Anda
+		journal_entry.append("accounts", {
+			"account": x.wallet_account,
+			"debit_in_account_currency": 0,
+			"credit_in_account_currency": flt(x.jumlah) - payment_entry.paid_amount,
+		})
+		journal_entry.append("accounts", {
+			"account": x.balancing_account,
+			"debit_in_account_currency": abs(flt(x.jumlah) - payment_entry.paid_amount),
+			"credit_in_account_currency": 0
+		})
+		journal_entry.insert()
 
 	# Update Wallet Shopee dengan Sales Invoice dan Payment Entry
 	wallet_shopee = frappe.get_doc("Wallet Shopee", x.name)
