@@ -18,6 +18,30 @@ custom_fields = {
 			"fieldtype": "Long Text",
 			"insert_after": "customer_name",
 		}
+	],
+	"Branch": [
+		{
+			"fieldname": "company",
+			"label": "Company",
+			"fieldtype": "Link",
+			"options": "Company",
+			"insert_after": "branch_name",
+			"reqd": 1
+		},
+		{
+			"fieldname": "Address",
+			"label": "Address",
+			"fieldtype": "Link",
+			"options": "Address",
+			"reqd": 1
+		},
+		{
+			"fieldname": "contact",
+			"label": "Contact",
+			"fieldtype": "Link",
+			"options": "Contact",
+			"reqd": 1
+		},
 	]
 }
 
@@ -181,6 +205,51 @@ def add_outlet_as_accounting_dimension():
 	frappe.db.commit()
 	print("✅...... Accounting Dimension 'Outlet' updated successfully with mandatory settings.")
 
+def add_brach_as_accounting_dimension():
+	"""Tambahkan Branch sebagai Accounting Dimension dan atur default serta mandatory settings"""
+	# Periksa apakah Accounting Dimension untuk Outlet sudah ada
+	accounting_dimension = frappe.db.get_value("Accounting Dimension", {"document_type": "Branch"}, "name")
+	if not accounting_dimension:
+		# Buat Accounting Dimension baru untuk Outlet
+		accounting_dimension = frappe.get_doc({
+				"doctype": "Accounting Dimension",
+				"document_type": "Branch",
+				"label": "Branch",
+				"disabled": 0  # Pastikan dimension aktif
+		})
+		print("✅...... Created new Accounting Dimension for Branch.")
+	else:
+		accounting_dimension = frappe.get_doc("Accounting Dimension", accounting_dimension)
+		print("⚠️...... Accounting Dimension for Branch already exists, updating...")
+
+	# Hapus semua entries di dimension defaults untuk memastikan tidak ada duplikasi
+	accounting_dimension.dimension_defaults = []
+	accounting_dimension.save()
+
+	# Ambil semua perusahaan
+	# companies = frappe.get_all("Company", fields=["name"])
+	# for company in companies:
+	# 	# Cari Outlet dengan is_default=1 untuk perusahaan tersebut
+	# 	default_outlet = frappe.db.get_value("Outlet", {"company": company["name"], "is_default": 1}, "name")
+	# 	if not default_outlet:
+	# 			print(f"......⚠️ No default Outlet found for Company '{company['name']}', skipping.")
+	# 			continue
+
+	# 	# Tambahkan ke child table dimension_defaults
+	# 	accounting_dimension.append("dimension_defaults", {
+	# 			"company": company["name"],
+	# 			"default_dimension": default_outlet,
+	# 			"mandatory_for_bs": 1,  # Wajib untuk Balance Sheet
+	# 			"mandatory_for_pl": 1  # Wajib untuk Profit and Loss
+	# 	})
+	# 	print(f"......✅ Added Company '{company['name']}' with default Outlet '{default_outlet}' to Accounting Dimension.")
+
+	# Simpan perubahan
+	accounting_dimension.save()
+	frappe.db.commit()
+	print("✅...... Accounting Dimension 'Outlet' updated successfully with mandatory settings.")
+
+
 def after_install():
 	"""
 	Fungsi utama yang dijalankan setelah aplikasi diinstall.
@@ -197,7 +266,7 @@ def after_install():
 	# ------------------------------------------------
 	# Setup Item Groups
 	# ------------------------------------------------
-	# setup_item_groups()
+	setup_item_groups()
 	print(f"... ✅ Item Group Set")
 
 	# ------------------------------------------------
@@ -217,10 +286,10 @@ def after_install():
 		raise e
 
 	# ------------------------------------------------
-	# Add outlet as Accounting DImension
+	# Add branch as Accounting DImension
 	# ------------------------------------------------
-	create_default_outlets()
-	add_outlet_as_accounting_dimension()
+	# create_default_outlets()
+	add_brach_as_accounting_dimension()
 	print(f"... ✅ Outlet has been added to Accounting Dimension")
 
 def before_install():
@@ -235,3 +304,25 @@ def before_install():
 		frappe.throw("ERPNext harus diinstal sebelum Anda dapat menginstal aplikasi ini.")
 	else:
 		print("... ✅ ERPNext already installed")
+
+
+# jalankan fungsi before uninstall
+def before_uninstall():
+	"""
+	Fungsi yang dijalankan sebelum aplikasi diuninstall.
+	"""
+	print("🟡 Uninstalling, Checking up environment...")
+
+	# Remove all custom_fields in the doctype of custom_fields
+	for doctype, fields in custom_fields.items():
+		for field in fields:
+			# delete custom field if exists from doctype
+			if frappe.get_meta(doctype).get_field(field["fieldname"]):
+				frappe.delete_doc("Custom Field", field["fieldname"])
+				print(f"... ✅ Custom Field {field['fieldname']} deleted")
+			else:
+				print(f"... ✅ Custom Field {field['fieldname']} not found")
+
+
+			
+

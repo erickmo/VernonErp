@@ -75,7 +75,7 @@
    "fieldtype": "Link",
    "label": "Business Unit",
    "options": "Business Unit",
-   "reqd": 1,
+   "reqd": 0,
    "search_index": 1
   }
  ],

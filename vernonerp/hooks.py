@@ -70,6 +70,7 @@ app_license = "mit"
 # before_install = "vernonerp.install.before_install"
 before_install = "vernonerp.installation.before_install"
 after_install = "vernonerp.installation.after_install"
+before_uninstall = "vernonerp.installation.before_uninstall"
 
 # Uninstallation
 # ------------

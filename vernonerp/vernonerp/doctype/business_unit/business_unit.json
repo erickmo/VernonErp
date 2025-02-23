@@ -7,6 +7,7 @@
  "engine": "InnoDB",
  "field_order": [
   "business_unit_name",
+  "company",
   "column_break_bfst",
   "logo"
  ],
@@ -25,11 +26,20 @@
    "fieldname": "logo",
    "fieldtype": "Attach Image",
    "label": "Logo"
+  },
+  {
+   "fieldname": "company",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Company",
+   "options": "Company",
+   "reqd": 1,
+   "search_index": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-02-03 08:43:15.479114",
+ "modified": "2025-02-23 14:02:39.271183",
  "modified_by": "Administrator",
  "module": "Vernonerp",
  "name": "Business Unit",
