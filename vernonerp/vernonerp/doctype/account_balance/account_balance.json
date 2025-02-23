@@ -50,25 +50,30 @@
   {
    "fieldname": "gl_balance",
    "fieldtype": "Currency",
+   "in_list_view": 1,
    "label": "GL Balance",
    "read_only": 1
   },
   {
    "fieldname": "gl_balance_fetch_at",
    "fieldtype": "Datetime",
+   "in_list_view": 1,
    "label": "GL Balance Fetch At",
    "read_only": 1
   },
   {
    "fieldname": "status",
-   "fieldtype": "Data",
+   "fieldtype": "Select",
+   "in_filter": 1,
+   "in_standard_filter": 1,
    "label": "Status",
+   "options": "balance\nnot balance",
    "read_only": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-02-23 17:29:12.187135",
+ "modified": "2025-02-23 17:36:11.024238",
  "modified_by": "Administrator",
  "module": "Vernonerp",
  "name": "Account Balance",
