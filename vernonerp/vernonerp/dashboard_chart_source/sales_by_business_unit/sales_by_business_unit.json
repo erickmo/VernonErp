@@ -1,0 +1,13 @@
+{
+ "creation": "2025-02-08 08:35:22.016092",
+ "docstatus": 0,
+ "doctype": "Dashboard Chart Source",
+ "idx": 0,
+ "modified": "2025-02-08 08:35:22.016092",
+ "modified_by": "Administrator",
+ "module": "Vernonerp",
+ "name": "Sales By Business Unit",
+ "owner": "Administrator",
+ "source_name": "Sales By Business Unit",
+ "timeseries": 1
+}
