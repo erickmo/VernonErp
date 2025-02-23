@@ -124,11 +124,32 @@ before_uninstall = "vernonerp.installation.before_uninstall"
 # ---------------
 # Hook on document methods and events
 
-# doc_events = {
-	# "*": {
-	# 	"autoname": "vernonerp.vernonerp.modules.custom_naming.autoname"
-	# }
-# }
+doc_events = {
+	"Sales Invoice": {
+		"autoname": "vernonerp.vernonerp.modules.custom_naming.autoname"
+	},
+	"Sales Invoice": {
+		"autoname": "vernonerp.vernonerp.modules.custom_naming.autoname"
+	},
+	"Purchase Invoice": {
+		"autoname": "vernonerp.vernonerp.modules.custom_naming.autoname"
+	},
+	"Delivery Note": {
+		"autoname": "vernonerp.vernonerp.modules.custom_naming.autoname"
+	},
+	"Sales Order": {
+		"autoname": "vernonerp.vernonerp.modules.custom_naming.autoname"
+	},
+	"Purchase Order": {
+		"autoname": "vernonerp.vernonerp.modules.custom_naming.autoname"
+	},
+	"Payment Entry": {
+		"autoname": "vernonerp.vernonerp.modules.custom_naming.autoname"
+	},
+	"Journal Entry": {
+		"autoname": "vernonerp.vernonerp.modules.custom_naming.autoname"
+	},
+}
 # 	"*": {
 # 		"on_update": "method",
 # 		"on_cancel": "method",
