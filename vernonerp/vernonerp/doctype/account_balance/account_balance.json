@@ -1,0 +1,105 @@
+{
+ "actions": [
+  {
+   "action": "vernonerp.vernonerp.functions.account_balance.execute",
+   "action_type": "Server Action",
+   "label": "Check Balance"
+  }
+ ],
+ "allow_rename": 1,
+ "autoname": "format:{account} {balance_date}",
+ "creation": "2025-02-23 15:56:41.209479",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "account",
+  "balance_date",
+  "balance",
+  "column_break_ryfv",
+  "gl_balance",
+  "gl_balance_fetch_at",
+  "status"
+ ],
+ "fields": [
+  {
+   "fieldname": "account",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Account",
+   "options": "Account",
+   "reqd": 1
+  },
+  {
+   "fieldname": "balance_date",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "label": "Balance Date",
+   "reqd": 1
+  },
+  {
+   "fieldname": "balance",
+   "fieldtype": "Currency",
+   "in_list_view": 1,
+   "label": "Balance",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_ryfv",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "gl_balance",
+   "fieldtype": "Currency",
+   "label": "GL Balance",
+   "read_only": 1
+  },
+  {
+   "fieldname": "gl_balance_fetch_at",
+   "fieldtype": "Datetime",
+   "label": "GL Balance Fetch At",
+   "read_only": 1
+  },
+  {
+   "fieldname": "status",
+   "fieldtype": "Data",
+   "label": "Status",
+   "read_only": 1
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2025-02-23 17:29:12.187135",
+ "modified_by": "Administrator",
+ "module": "Vernonerp",
+ "name": "Account Balance",
+ "naming_rule": "Expression",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "quick_entry": 1,
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [
+  {
+   "color": "Green",
+   "title": "balance"
+  },
+  {
+   "color": "Red",
+   "title": "not balance"
+  }
+ ],
+ "track_changes": 1
+}
