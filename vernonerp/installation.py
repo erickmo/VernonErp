@@ -249,7 +249,34 @@ def add_brach_as_accounting_dimension():
 	frappe.db.commit()
 	print("✅...... Accounting Dimension 'Outlet' updated successfully with mandatory settings.")
 
+def create_default_address_and_contact_doc():
+	"""Buat default Address Unknown Address"""
+	if not frappe.db.exists("Address", "Unknown Address"):
+		address = frappe.get_doc({
+			"doctype": "Address",
+			"address_title": "Unknown Address",
+			"address_line1": "Unknown Address",
+			"city": "Unknown City",
+			"pincode": "000000",
+			"country": "Indonesia",
+		})
+		address.insert()
+		frappe.db.commit()
 
+	"""Buat default Conctact Unknown Conctact"""
+	if not frappe.db.exists("Contact", "Unknown Contact"):
+		contact = frappe.get_doc({
+			"doctype": "Contact",
+			"first_name": "Unknown",
+			"last_name": "Contact",
+			"phone": "0000000000",
+		})
+		contact.insert()
+		frappe.db.commit()
+
+# ---------------------------------------------------------------
+# Hooks 
+# ---------------------------------------------------------------
 def after_install():
 	"""
 	Fungsi utama yang dijalankan setelah aplikasi diinstall.
@@ -290,7 +317,15 @@ def after_install():
 	# ------------------------------------------------
 	# create_default_outlets()
 	add_brach_as_accounting_dimension()
+
+	# ------------------------------------------------
+	# Create default contact & address
+	# ------------------------------------------------
+	create_default_address_and_contact_doc()
+	print(f"... ✅ Default Address and Contact Created")
+
 	print(f"... ✅ Outlet has been added to Accounting Dimension")
+
 
 def before_install():
 	"""
