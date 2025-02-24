@@ -40,7 +40,7 @@ def autoname(doc, method):
     Custom autoname untuk doctype yang memiliki transaction_date atau posting_date
     Format: {doc_code}-YYYYMM-xxxxx
     """
-    frappe.msgprint(f"prev_name")
+    # frappe.msgprint(f"prev_name")
 
     try:
         prev_name = doc.name
