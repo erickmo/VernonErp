@@ -134,6 +134,9 @@ doc_events = {
 	"Purchase Invoice": {
 		"autoname": "vernonerp.vernonerp.modules.custom_naming.autoname"
 	},
+	"Purchase Receipt": {
+		"autoname": "vernonerp.vernonerp.modules.custom_naming.autoname"
+	},
 	"Delivery Note": {
 		"autoname": "vernonerp.vernonerp.modules.custom_naming.autoname"
 	},

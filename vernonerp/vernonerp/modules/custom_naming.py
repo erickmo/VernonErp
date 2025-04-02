@@ -25,6 +25,11 @@ DOCTYPE_SETTINGS = {
         "code": "PO",
         "date_field": "transaction_date"
     },
+    "Purchase Receipt": {
+        "code": "PR",
+        "return_field": "is_return",
+        "date_field": "posting_date"
+    },
     "Payment Entry": {
         "code": "PAY",
         "date_field": "posting_date"
