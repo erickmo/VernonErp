@@ -59,7 +59,7 @@ def autoname(doc, method):
         # 1. Tentukan doc_code
         doc_code = settings["code"]
         if settings.get("return_field") and doc.get(settings["return_field"]):
-            doc_code += "R"
+            doc_code += "-RET"
 
         # 2. Ambil tanggal yang sesuai
         date_field = settings["date_field"]
